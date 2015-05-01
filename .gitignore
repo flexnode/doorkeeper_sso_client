@@ -1,3 +1,17 @@
+# Ignore bundler config.
 .bundle/
-log/*.log
+
+# Ignore the default SQLite database.
+*.sqlite3
+*.sqlite3-journal
+
+# Ignore all logfiles and tempfiles.
+log/*
+!/log/.keep
 pkg/
+
+# Ignore SimpleCov
+coverage/
+
+# Ignore built gems
+*.gem
