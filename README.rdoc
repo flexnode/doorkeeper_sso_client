@@ -1,0 +1,4 @@
+= DoorkeeperSsoClient
+
+Client gem for SSO gem @ https://github.com/flexnode/doorkeeper_sso
+This project rocks and uses MIT-LICENSE.
