@@ -6,7 +6,8 @@ module OmniAuth
       option :name, :doorkeeper_sso
       option :client_options, {
         site: 'https://sso.example.com',
-        authorize_path: "/oauth/authorize"
+        authorize_path: '/oauth/authorize',
+        sso_sessions_path: '/sso/sessions'
       }
 
       option :fields, [:email, :name, :first_name, :last_name]
@@ -37,7 +38,7 @@ module OmniAuth
 
       def session_info
         params = { ip: request.ip, agent: request.user_agent }
-        @session_info ||= access_token.post('/sso/sessions', params: params).parsed
+        @session_info ||= access_token.post(options.client_options.sso_sessions_path, params: params).parsed
       end
     end
   end
