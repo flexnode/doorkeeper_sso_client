@@ -25,6 +25,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "activesupport", "> 3"
   s.add_runtime_dependency 'warden', '~> 1'
   s.add_runtime_dependency 'operation', '~> 0.0.3'
-  s.add_runtime_dependency 'strong_parameters'
   s.add_development_dependency "sqlite3"
 end
