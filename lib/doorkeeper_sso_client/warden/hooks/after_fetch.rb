@@ -9,7 +9,7 @@ module DoorkeeperSsoClient
       #   SSO::Client::Warden::Hooks::AfterFetch.activate scope: :vip
       #
       class AfterFetch
-        include DoorkeeperSso::Client::Logging
+        include ::DoorkeeperSsoClient::Logging
 
         attr_reader :resource, :warden, :options
         delegate :request, to: :warden
