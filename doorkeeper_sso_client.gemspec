@@ -25,5 +25,18 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "activesupport", "> 3"
   s.add_runtime_dependency 'warden', '~> 1'
   s.add_runtime_dependency 'operation', '~> 0.0.3'
+
+  # Development
+  s.add_development_dependency 'database_cleaner', '>= 1.4'
   s.add_development_dependency "sqlite3"
+  s.add_development_dependency 'rspec-rails', '>= 3.0'
+  s.add_development_dependency 'shoulda-matchers', '>= 2.8'
+  s.add_development_dependency 'simplecov', '>= 0.9.0'
+  s.add_development_dependency 'timecop', '>= 0.7'
+  s.add_development_dependency 'webmock', '>= 1.2'
+  s.add_development_dependency 'fabrication', '>= 2.0'
+  s.add_development_dependency 'vcr', '>= 2.9'
+  s.add_development_dependency 'nyan-cat-formatter', '>= 0.11'
+  s.add_development_dependency 'combustion', '~> 0.5.3'
+  s.add_development_dependency 'ffaker', '>= 1'
 end

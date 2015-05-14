@@ -13,3 +13,19 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 
+gem 'omniauth-oauth2'
+gem 'warden'
+
+group :test do
+  gem 'rspec-rails'
+  gem 'ffaker'
+  gem 'nyan-cat-formatter', github: 'mattsears/nyan-cat-formatter'
+  gem 'fabrication'
+  gem 'database_cleaner'
+  gem 'vcr'
+  gem 'webmock'
+  gem "shoulda-matchers", require: false
+  gem 'simplecov', require: false
+  gem 'timecop'
+  gem 'combustion', '~> 0.5.3'
+end
