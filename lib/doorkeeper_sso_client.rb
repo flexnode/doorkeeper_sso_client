@@ -1,7 +1,6 @@
 require "doorkeeper_sso_client/engine"
 require 'doorkeeper_sso_client/config'
 require 'doorkeeper_sso_client/logging'
-require 'doorkeeper_sso_client/passport'
 require 'doorkeeper_sso_client/passport_verifier'
 require 'doorkeeper_sso_client/warden/hooks/after_fetch'
 require 'doorkeeper_sso_client/version'
