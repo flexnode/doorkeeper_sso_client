@@ -28,7 +28,7 @@ Gem::Specification.new do |s|
 
   # Development
   s.add_development_dependency 'database_cleaner', '>= 1.4'
-  s.add_development_dependency "sqlite3"
+  s.add_development_dependency "pg", '~> 0.18'
   s.add_development_dependency 'rspec-rails', '>= 3.0'
   s.add_development_dependency 'shoulda-matchers', '>= 2.8'
   s.add_development_dependency 'simplecov', '>= 0.9.0'
