@@ -6,8 +6,8 @@ Client gem for SSO Server gem @ https://github.com/flexnode/doorkeeper_sso
 
 
 # Dependencies
-  - Ruby 1.9
-  - Rails 3.2
+  - Ruby 1.9 and above
+  - Rails 3.2 and above
   - Postgres
 
 
@@ -17,7 +17,7 @@ Client gem for SSO Server gem @ https://github.com/flexnode/doorkeeper_sso
 Install project gem
 
 ```ruby
-  gem doorkeeper_sso_client
+  gem 'doorkeeper_sso_client'
 ```
 
 
