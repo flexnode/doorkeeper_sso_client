@@ -20,6 +20,12 @@ Install project gem
   gem 'doorkeeper_sso_client'
 ```
 
+Import migrations and run them
+
+```ruby
+rake doorkeeper_sso_client:install:migrations
+rake db:migrate
+```
 
 Create an initializer inside config/initializers (doorkeeper_sso_client.rb)
 
@@ -29,6 +35,28 @@ Create an initializer inside config/initializers (doorkeeper_sso_client.rb)
   config[:oauth_client_secret] = 'abc'
   config[:base_uri] = 'http://localhost'
 end
+```
+
+
+Add passport to your user model (user.rb)
+
+```ruby
+has_one :passport, as: :identity, class_name: "DoorkeeperSsoClient::Passport"
+```
+
+Ensure you link user model with passport on omniauth callback
+
+```ruby
+def assign_from_omniauth(auth)
+  self.passport = DoorkeeperSsoClient::Passport.find_by_uid(auth["extra"]["passport_id"])
+  ...
+```
+
+Mount engine for Pingback functionality
+
+``ruby
+MyApp::Application.routes.draw do
+  mount DoorkeeperSsoClient::Engine => "/doorkeeper_sso_client"
 ```
 
 
