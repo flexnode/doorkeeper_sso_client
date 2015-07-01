@@ -15,6 +15,7 @@ gemspec
 
 gem 'omniauth-oauth2'
 gem 'warden'
+gem 'devise'
 
 group :test do
   gem 'rspec-rails'

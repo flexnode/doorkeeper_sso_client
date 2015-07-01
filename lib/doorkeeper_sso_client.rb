@@ -1,3 +1,4 @@
+require 'doorkeeper_sso_client/mixins'
 require "doorkeeper_sso_client/engine"
 require 'doorkeeper_sso_client/config'
 require 'doorkeeper_sso_client/logging'

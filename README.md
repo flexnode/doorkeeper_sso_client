@@ -37,7 +37,6 @@ Create an initializer inside config/initializers (doorkeeper_sso_client.rb)
 end
 ```
 
-
 Add passport to your user model (user.rb)
 
 ```ruby
@@ -54,11 +53,25 @@ def assign_from_omniauth(auth)
 
 Mount engine for Pingback functionality
 
-``ruby
+```ruby
 MyApp::Application.routes.draw do
   mount DoorkeeperSsoClient::Engine => "/doorkeeper_sso_client"
 ```
 
+
+If you use devise, you can log out users when their passport is invalid
+You must add your main scope (eg :user) to the devise_group(:sso) in application_controller.rb
+
+```ruby
+  devise_group :sso, contains: [:user]
+```
+
+After every before_filter :authenticate_user!, run validate_passport!
+
+```ruby
+  before_filter :authenticate_user!
+  before_filter :validate_passport!
+```
 
 ## Maintained by
   - John - [john@flexnode.com](mailto:john@flexnode.com)

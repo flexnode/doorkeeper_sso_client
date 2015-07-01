@@ -13,5 +13,11 @@ module DoorkeeperSsoClient
                         :request_specs => false
       g.fixture_replacement :fabrication
     end
+
+    config.before_initialize do
+      if Object.const_defined?("Devise")
+        ::Devise::Controllers::Helpers.send(:include, DoorkeeperSsoClient::Mixins::ControllerHelpers)
+      end
+    end
   end
 end
