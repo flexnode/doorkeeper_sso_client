@@ -59,18 +59,22 @@ MyApp::Application.routes.draw do
 ```
 
 
-If you use devise, you can log out users when their passport is invalid
-You must add your main scope (eg :user) to the devise_group(:sso) in application_controller.rb
+If you use [Devise](https://github.com/plataformatec/devise), you can automatically log out users when their passport is invalid. Run activate sso on your main scope (eg :user) inside application_controller.rb It will automatically run validate_passport! whenever authenticate_user! is run
 
 ```ruby
-  devise_group :sso, contains: [:user]
+  activate_sso :user
 ```
 
-After every before_filter :authenticate_user!, run validate_passport!
+To manually run validate_passport! use the option below
+
+Options
+  :skip_devise_hook => true
+
+Before every before_filter :authenticate_user!, you can run validate_passport!
 
 ```ruby
-  before_filter :authenticate_user!
   before_filter :validate_passport!
+  before_filter :authenticate_user!
 ```
 
 ## Maintained by

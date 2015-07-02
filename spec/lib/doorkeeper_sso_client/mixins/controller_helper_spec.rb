@@ -2,44 +2,80 @@ require 'rails_helper'
 
 #  DoorkeeperSsoClient::Mixins::ControllerHelpers automatically included into Devise::Controller::Helpers
 
-RSpec.describe "DoorkeeperSsoClient::Mixins::ControllerHelpers", :type => :controller do
-    controller(ApplicationController) do
-      devise_group :sso, contains: [:user]
+RSpec.describe "DoorkeeperSsoClient::Mixins::ControllerHelpers DeviseHook", :type => :controller do
+  controller(ApplicationController) do
+    activate_sso :user
+    before_filter :authenticate_user!
 
-      before_filter :authenticate_user!
-      before_filter :validate_passport!
+    def index
+      render nothing: :true
+    end
+  end
 
-      def index
-        render nothing: :true
+  let(:passport) { Fabricate('DoorkeeperSsoClient::Passport', identity: Fabricate(:user)) }
+  let(:user) { passport.identity }
+
+  before(:each) do
+    @request.env["devise.mapping"] = Devise.mappings[:user]
+    sign_in user
+    get :index
+  end
+
+  describe "::activate_sso" do
+
+    context "with valid passport" do
+      it "remain signed in" do
+        expect(controller.user_signed_in?).to be_truthy
       end
     end
 
-    let(:user) { Fabricate(:user) }
-    let(:passport) { Fabricate(:passport, identity: user) }
-
-    describe "before_filter#validate_passport!" do
-      context "when user is logged in" do
-        before(:each) do
-          @request.env["devise.mapping"] = Devise.mappings[:user]
-          sign_in user
-          get :index
-        end
-
-        context "with valid passport" do
-
-          it "remain signed in" do
-            expect(controller.user_signed_in?).to be_truthy
-          end
-        end
-      end
-
-      context "when user is logged out" do
-        let(:passport) { Fabricate(:passport, identity: user, revoked_at: Time.now, revoke_reason: :logout ) }
-
-        it "log out user" do
-          expect(controller.user_signed_in?).to be_falsey
-        end
-
+    context "with invalid passport" do
+      let(:passport) { Fabricate('DoorkeeperSsoClient::Passport', identity: Fabricate(:user), revoked_at: Time.now, revoke_reason: :logout ) }
+      it "automatically signed out" do
+        expect(controller.user_signed_in?).to be_falsey
       end
     end
+  end
+end
+
+
+
+RSpec.describe "DoorkeeperSsoClient::Mixins::ControllerHelpers SkipDeviseHook", :type => :controller do
+  controller(ApplicationController) do
+    activate_sso :user, :skip_devise_hook => true
+    before_filter :authenticate_user!
+
+    def index
+      render nothing: :true
+    end
+  end
+
+  let(:passport) { Fabricate('DoorkeeperSsoClient::Passport', identity: Fabricate(:user)) }
+  let(:user) { passport.identity }
+
+  before(:each) do
+    @request.env["devise.mapping"] = Devise.mappings[:user]
+    sign_in user
+    get :index
+  end
+
+  describe "#validate_passport!" do
+    context "with valid passport" do
+      it "remain signed in" do
+        expect(controller.user_signed_in?).to be_truthy
+      end
+    end
+
+    context "with invalid passport" do
+      let(:passport) { Fabricate('DoorkeeperSsoClient::Passport', identity: Fabricate(:user), revoked_at: Time.now, revoke_reason: :logout ) }
+      it "remain signed in" do
+        expect(controller.user_signed_in?).to be_truthy
+      end
+
+      it "sign out when manually validate_passport!" do
+        controller.validate_passport!
+        expect(controller.user_signed_in?).to be_falsey
+      end
+    end
+  end
 end
