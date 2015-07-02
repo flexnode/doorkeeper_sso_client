@@ -9,11 +9,10 @@ module DoorkeeperSsoClient
 
           unless options[:skip_devise_hook]
             class_eval <<-METHODS, __FILE__, __LINE__ + 1
-              def authenticate_#{scope}_with_passport!
+              def authenticate_#{scope}!
                 validate_passport!
-                authenticate_#{scope}_without_passport!
+                super
               end
-              alias_method_chain :authenticate_#{scope}!, :passport
             METHODS
           end
         end
