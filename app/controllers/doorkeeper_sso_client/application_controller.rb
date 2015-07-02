@@ -1,7 +1,7 @@
 require_dependency 'api_auth'
 
 module DoorkeeperSsoClient
-  class ApplicationController < ::ApplicationController
+  class ApplicationController < ActionController::Base
     before_filter :api_authenticate
 
     protect_from_forgery with: :null_session
