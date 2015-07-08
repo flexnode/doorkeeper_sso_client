@@ -21,9 +21,9 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'omniauth', "~> 1"
   s.add_dependency 'mixlib-config', "~> 2.2"
+  s.add_dependency "activesupport", "> 3"
   s.add_runtime_dependency "rails", "> 3"
   s.add_runtime_dependency 'omniauth-oauth2'
-  s.add_runtime_dependency "activesupport", "> 3"
   s.add_runtime_dependency 'warden', '~> 1'
   s.add_runtime_dependency 'operation', '~> 0.0.3'
   s.add_runtime_dependency 'api-auth', '~> 1.3.1'
