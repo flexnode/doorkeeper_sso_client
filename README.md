@@ -35,6 +35,10 @@ Create an initializer inside config/initializers (doorkeeper_sso_client.rb)
   config[:oauth_client_secret] = 'abc'
   config[:base_uri] = 'http://localhost'
 end
+
+# List of Overridable defaults
+default :sessions_path, '/sso/sessions'
+default :oauth_login_path, '/auth/doorkeeper_sso'
 ```
 
 Add passport to your user model (user.rb)
