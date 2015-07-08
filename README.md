@@ -43,7 +43,7 @@ Add passport to your user model (user.rb)
 has_one :passport, as: :identity, class_name: "DoorkeeperSsoClient::Passport"
 ```
 
-Ensure you link user model with passport on omniauth callback
+Ensure you link user model with passport on omniauth callback (user.rb)
 
 ```ruby
 def assign_from_omniauth(auth)
@@ -73,6 +73,8 @@ Options
 Before every before_filter :authenticate_user!, you can run validate_passport!
 
 ```ruby
+  activate_sso :user, :skip_devise_hook => true
+
   before_filter :validate_passport!
   before_filter :authenticate_user!
 ```
