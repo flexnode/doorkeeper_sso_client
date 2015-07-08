@@ -5,7 +5,15 @@ module DoorkeeperSsoClient
 
       module ClassMethods
         def activate_sso(scope, options = {})
-          devise_group :sso, contains: [scope]
+
+          class_eval <<-METHODS, __FILE__, __LINE__ + 1
+            def validate_passport!
+              if #{scope}_signed_in?
+                sign_out(current_#{scope}) unless current_#{scope}.passport.try(:active?)
+              end
+              return true
+            end
+          METHODS
 
           unless options[:skip_devise_hook]
             class_eval <<-METHODS, __FILE__, __LINE__ + 1
@@ -17,14 +25,6 @@ module DoorkeeperSsoClient
           end
         end
       end
-
-      def validate_passport!
-        if sso_signed_in?
-          sign_out(current_sso) unless current_sso.passport.try(:active?)
-        end
-        return true
-      end
-
     end
   end
 end
