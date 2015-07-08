@@ -34,6 +34,14 @@ RSpec.describe "DoorkeeperSsoClient::Mixins::ControllerHelpers DeviseHook", :typ
       it "automatically signed out" do
         expect(controller.user_signed_in?).to be_falsey
       end
+
+      it "redirects to Omniauth strategy" do
+        expect(response).to redirect_to("http://test.host/auth/doorkeeper_sso")
+      end
+
+      it "stores origin location" do
+        expect(controller.stored_location_for(:user)).to eq "/anonymous"
+      end
     end
   end
 end
