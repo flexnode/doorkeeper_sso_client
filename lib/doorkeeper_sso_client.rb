@@ -13,3 +13,8 @@ module DoorkeeperSsoClient
     'sso_client_'
   end
 end
+
+if Object.const_defined?("Devise")
+  ::Devise::Controllers::Helpers.send(:include, DoorkeeperSsoClient::Mixins::ControllerHelpers)
+end
+
