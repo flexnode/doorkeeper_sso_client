@@ -1,4 +1,4 @@
-require 'doorkeeper_sso_client/mixins/controller_helpers'
+require 'doorkeeper_sso_client/mixins/devise/controller_helpers'
 
 module DoorkeeperSsoClient
   module Mixins

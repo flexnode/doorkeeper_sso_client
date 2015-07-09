@@ -66,6 +66,8 @@ MyApp::Application.routes.draw do
 If you use [Devise](https://github.com/plataformatec/devise), you can automatically log out users when their passport is invalid. Run activate sso on your main scope (eg :user) inside application_controller.rb It will automatically run validate_passport! whenever authenticate_user! is run
 
 ```ruby
+  include DoorkeeperSsoClient::Mixins::Devise::ControllerHelpers
+
   activate_sso :user
 ```
 
@@ -77,6 +79,7 @@ Options
 Before every before_filter :authenticate_user!, you can run validate_passport!
 
 ```ruby
+  include DoorkeeperSsoClient::Mixins::Devise::ControllerHelpers
   activate_sso :user, :skip_devise_hook => true
 
   before_filter :validate_passport!

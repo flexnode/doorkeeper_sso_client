@@ -2,8 +2,10 @@ require 'rails_helper'
 
 #  DoorkeeperSsoClient::Mixins::ControllerHelpers automatically included into Devise::Controller::Helpers
 
-RSpec.describe "DoorkeeperSsoClient::Mixins::ControllerHelpers DeviseHook", :type => :controller do
+RSpec.describe "DoorkeeperSsoClient::Mixins::Devise::ControllerHelpers DeviseHook", :type => :controller do
   controller(ApplicationController) do
+    include DoorkeeperSsoClient::Mixins::Devise::ControllerHelpers
+
     activate_sso :user
     before_filter :authenticate_user!
 
@@ -53,8 +55,10 @@ end
 
 
 
-RSpec.describe "DoorkeeperSsoClient::Mixins::ControllerHelpers SkipDeviseHook", :type => :controller do
+RSpec.describe "DoorkeeperSsoClient::Mixins::Devise::ControllerHelpers SkipDeviseHook", :type => :controller do
   controller(ApplicationController) do
+    include DoorkeeperSsoClient::Mixins::Devise::ControllerHelpers
+
     activate_sso :user, :skip_devise_hook => true
     before_filter :authenticate_user!
 
