@@ -44,6 +44,11 @@ RSpec.describe "DoorkeeperSsoClient::Mixins::ControllerHelpers DeviseHook", :typ
       end
     end
   end
+
+  # Will redirect to sso server to completely logout user
+  describe "#after_sign_out_path_for" do
+    it { expect(controller.after_sign_out_path_for(:user)).to eq "http://sso_server.com/logout?app_id=123" }
+  end
 end
 
 

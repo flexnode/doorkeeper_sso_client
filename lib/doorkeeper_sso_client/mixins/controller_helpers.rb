@@ -13,6 +13,14 @@ module DoorkeeperSsoClient
               end
               return true
             end
+
+            def after_sign_out_path_for(resource_or_scope)
+              scope = Devise::Mapping.find_scope!(resource_or_scope)
+              if scope == :#{scope}
+               return File.join( DoorkeeperSsoClient::Config.base_uri, "logout?app_id=" + DoorkeeperSsoClient::Config.oauth_client_id.to_s )
+              end
+              super
+            end
           METHODS
 
           unless options[:skip_devise_hook]
