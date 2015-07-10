@@ -21,6 +21,15 @@ module DoorkeeperSsoClient
                 end
                 super
               end
+
+              def after_sign_in_path_for(resource_or_scope)
+                scope = ::Devise::Mapping.find_scope!(resource_or_scope)
+                if scope == :#{scope}
+                  request.env['omniauth.origin'] || super
+                else
+                  super
+                end
+              end
             METHODS
 
             unless options[:skip_devise_hook]

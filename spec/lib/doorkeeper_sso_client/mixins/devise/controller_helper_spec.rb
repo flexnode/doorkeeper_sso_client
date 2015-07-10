@@ -47,10 +47,29 @@ RSpec.describe "DoorkeeperSsoClient::Mixins::Devise::ControllerHelpers DeviseHoo
     end
   end
 
-  # Will redirect to sso server to completely logout user
+
   describe "#after_sign_out_path_for" do
+    # Will redirect to sso server to completely logout user
     it { expect(controller.after_sign_out_path_for(:user)).to eq "http://sso_server.com/logout?app_id=123" }
   end
+
+
+  describe "#after_sign_in_path_for" do
+    # Will redirect to request.env['omniauth.origin']
+    context "has omniauth.origin" do
+      before(:each) do
+        mock_env = @request.env.merge 'omniauth.origin' => "http://localhost/profile"
+        allow(@request).to receive(:env).and_return(mock_env)
+      end
+
+      it { expect(controller.after_sign_in_path_for(:user)).to eq "http://localhost/profile" }
+    end
+
+    describe "omniauth.origin env missing" do
+      it { expect(controller.after_sign_in_path_for(:user)).to eq "/anonymous" }
+    end
+  end
+
 end
 
 
