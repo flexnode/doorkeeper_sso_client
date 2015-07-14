@@ -14,8 +14,6 @@ module OmniAuth
       option :fields, [:email, :name, :first_name, :last_name]
       option :uid_field, :id
 
-      attr_accessor :passport
-
       uid do
         user_info[options.uid_field.to_s]
       end
@@ -48,7 +46,8 @@ module OmniAuth
       end
 
       def call_app!
-        self.passport = create_passport
+        create_passport
+        session[:passport_id] = passport_info["id"]
         super
       end
 

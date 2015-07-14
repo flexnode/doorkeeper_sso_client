@@ -9,7 +9,7 @@ module DoorkeeperSsoClient
             class_eval <<-METHODS, __FILE__, __LINE__ + 1
               def validate_passport!
                 if #{scope}_signed_in?
-                  sign_out(current_#{scope}) unless current_#{scope}.passport.try(:active?)
+                  sign_out(current_#{scope}) unless current_#{scope}.passports.find_by_uid(session['passport_id']).try(:active?)
                 end
                 return true
               end

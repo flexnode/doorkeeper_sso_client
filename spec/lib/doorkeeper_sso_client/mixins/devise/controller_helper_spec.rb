@@ -20,7 +20,7 @@ RSpec.describe "DoorkeeperSsoClient::Mixins::Devise::ControllerHelpers DeviseHoo
   before(:each) do
     @request.env["devise.mapping"] = Devise.mappings[:user]
     sign_in user
-    get :index
+    get :index, nil, {'passport_id' => passport.uid}
   end
 
   describe "::activate_sso" do

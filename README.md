@@ -44,14 +44,14 @@ default :oauth_login_path, '/auth/doorkeeper_sso'
 Add passport to your user model (user.rb)
 
 ```ruby
-has_one :passport, as: :identity, class_name: "DoorkeeperSsoClient::Passport"
+has_many :passports, as: :identity, class_name: "DoorkeeperSsoClient::Passport"
 ```
 
 Ensure you link user model with passport on omniauth callback (user.rb)
 
 ```ruby
 def assign_from_omniauth(auth)
-  self.passport = DoorkeeperSsoClient::Passport.find_by_uid(auth["extra"]["passport_id"])
+  self.passports << DoorkeeperSsoClient::Passport.find_by_uid(auth["extra"]["passport_id"])
   ...
 ```
 
