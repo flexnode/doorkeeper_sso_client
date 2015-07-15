@@ -47,7 +47,7 @@ module OmniAuth
 
       def call_app!
         create_passport
-        session[:passport_id] = passport_info["id"]
+        session[:passport_id] = env['omniauth.auth']['extra']['passport_id']
         super
       end
 
