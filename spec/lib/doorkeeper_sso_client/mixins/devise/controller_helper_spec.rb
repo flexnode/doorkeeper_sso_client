@@ -70,6 +70,34 @@ RSpec.describe "DoorkeeperSsoClient::Mixins::Devise::ControllerHelpers DeviseHoo
     end
   end
 
+
+  describe "#sign_out" do
+    context "user scope" do
+      before(:each) { controller.sign_out(:user) }
+      it "removes session['passport_id']" do
+        expect(controller.session['passport_id']).to be_nil
+      end
+    end
+
+    context "other_scope" do
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:admin]
+        sign_in :admin, Fabricate(:user)
+        controller.sign_out :admin
+      end
+      it "keeps session['passport_id']" do
+        expect(controller.session['passport_id']).to eq passport.uid
+      end
+    end
+  end
+
+  describe "#sign_out_all_scopes" do
+    before(:each) { controller.sign_out_all_scopes }
+    it "removes session['passport_id']" do
+      expect(controller.session['passport_id']).to be_nil
+    end
+  end
+
 end
 
 
