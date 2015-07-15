@@ -1,4 +1,4 @@
-require_dependency 'api_auth'
+require_dependency 'api-auth'
 
 module DoorkeeperSsoClient
   class ApplicationController < ActionController::Base
