@@ -86,6 +86,37 @@ Before every before_filter :authenticate_user!, you can run validate_passport!
   before_filter :authenticate_user!
 ```
 
+
+## Testing
+
+Tests may start failing because the Devise::Test helpers do not account for passport inside of the session.
+Please add DoorkeeperSsoClient's TestHelpers into your spec/support/devise.rb file
+
+```ruby
+RSpec.configure do |config|
+  config.include Devise::TestHelpers, :type => :controller
+  # Override test helpers
+  config.include DoorkeeperSsoClient::Mixins::Devise::TestHelpers, :type => :controller
+```
+
+You must also ensure that all your controller tests set the passport_id inside the session. Eg
+
+```ruby
+RSpec.describe "ControllerTestExample", :type => :controller do
+
+  let(:passport) { Fabricate('DoorkeeperSsoClient::Passport', identity: Fabricate(:user)) }
+  let(:user) { passport.identity }
+
+  before(:each) do
+    @request.env["devise.mapping"] = Devise.mappings[:user]
+    sign_in user
+  end
+
+  describe "GET index" do
+    it { get :index, nil, {'passport_id' => passport.uid} }
+  end
+```
+
 ## Maintained by
   - John - [john@flexnode.com](mailto:john@flexnode.com)
 
