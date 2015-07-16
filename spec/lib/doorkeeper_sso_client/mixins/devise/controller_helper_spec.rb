@@ -73,7 +73,7 @@ RSpec.describe "DoorkeeperSsoClient::Mixins::Devise::ControllerHelpers DeviseHoo
 
   describe "#sign_out" do
     context "user scope" do
-      before(:each) { controller.sign_out(:user) }
+      before(:each) { sign_out(:user) }
       it "removes session['passport_id']" do
         expect(controller.session['passport_id']).to be_nil
       end
@@ -83,7 +83,7 @@ RSpec.describe "DoorkeeperSsoClient::Mixins::Devise::ControllerHelpers DeviseHoo
       before(:each) do
         @request.env["devise.mapping"] = Devise.mappings[:admin]
         sign_in :admin, Fabricate(:user)
-        controller.sign_out :admin
+        sign_out :admin
       end
       it "keeps session['passport_id']" do
         expect(controller.session['passport_id']).to eq passport.uid
@@ -97,7 +97,6 @@ RSpec.describe "DoorkeeperSsoClient::Mixins::Devise::ControllerHelpers DeviseHoo
       expect(controller.session['passport_id']).to be_nil
     end
   end
-
 end
 
 
