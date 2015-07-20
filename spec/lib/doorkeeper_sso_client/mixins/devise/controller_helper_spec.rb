@@ -37,8 +37,8 @@ RSpec.describe "DoorkeeperSsoClient::Mixins::Devise::ControllerHelpers DeviseHoo
         expect(controller.user_signed_in?).to be_falsey
       end
 
-      it "redirects to Omniauth strategy" do
-        expect(response).to redirect_to("http://test.host/auth/doorkeeper_sso")
+      it "redirects to Omniauth strategy with origin" do
+        expect(response).to redirect_to("http://test.host/auth/doorkeeper_sso?origin=http://test.host/anonymous")
       end
 
       it "stores origin location" do
@@ -95,50 +95,6 @@ RSpec.describe "DoorkeeperSsoClient::Mixins::Devise::ControllerHelpers DeviseHoo
     before(:each) { controller.sign_out_all_scopes }
     it "removes session['passport_id']" do
       expect(controller.session['passport_id']).to be_nil
-    end
-  end
-end
-
-
-
-RSpec.describe "DoorkeeperSsoClient::Mixins::Devise::ControllerHelpers SkipDeviseHook", :type => :controller do
-  controller(ApplicationController) do
-    include DoorkeeperSsoClient::Mixins::Devise::ControllerHelpers
-
-    activate_sso :user, :skip_devise_hook => true
-    before_filter :authenticate_user!
-
-    def index
-      render nothing: :true
-    end
-  end
-
-  let(:passport) { Fabricate('DoorkeeperSsoClient::Passport', identity: Fabricate(:user)) }
-  let(:user) { passport.identity }
-
-  before(:each) do
-    @request.env["devise.mapping"] = Devise.mappings[:user]
-    sign_in user
-    get :index
-  end
-
-  describe "#validate_passport!" do
-    context "with valid passport" do
-      it "remain signed in" do
-        expect(controller.user_signed_in?).to be_truthy
-      end
-    end
-
-    context "with invalid passport" do
-      let(:passport) { Fabricate('DoorkeeperSsoClient::Passport', identity: Fabricate(:user), revoked_at: Time.now, revoke_reason: :logout ) }
-      it "remain signed in" do
-        expect(controller.user_signed_in?).to be_truthy
-      end
-
-      it "sign out when manually validate_passport!" do
-        controller.validate_passport!
-        expect(controller.user_signed_in?).to be_falsey
-      end
     end
   end
 end

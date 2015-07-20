@@ -71,21 +71,7 @@ If you use [Devise](https://github.com/plataformatec/devise), you can automatica
   activate_sso :user
 ```
 
-To manually run validate_passport! use the option below
-
-Options
-  :skip_devise_hook => true
-
-Before every before_filter :authenticate_user!, you can run validate_passport!
-
-```ruby
-  include DoorkeeperSsoClient::Mixins::Devise::ControllerHelpers
-  activate_sso :user, :skip_devise_hook => true
-
-  before_filter :validate_passport!
-  before_filter :authenticate_user!
-```
-
+Note : You can override authenticate_user! if you want customized behavior
 
 ## Testing
 
