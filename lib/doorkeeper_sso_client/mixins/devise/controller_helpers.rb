@@ -28,6 +28,7 @@ module DoorkeeperSsoClient
               end
 
               def sign_out(resource_or_scope=nil)
+                return sign_out_all_scopes unless resource_or_scope
                 if scope_match? resource_or_scope, :#{scope}
                   session['passport_id'] = nil
                 end

@@ -89,6 +89,13 @@ RSpec.describe "DoorkeeperSsoClient::Mixins::Devise::ControllerHelpers DeviseHoo
         expect(controller.session['passport_id']).to eq passport.uid
       end
     end
+
+    context "no scope" do
+      it "sign_out_all_scopes if nil passed" do
+        expect(controller).to receive(:sign_out_all_scopes)
+        sign_out
+      end
+    end
   end
 
   describe "#sign_out_all_scopes" do
