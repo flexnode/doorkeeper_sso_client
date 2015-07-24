@@ -1,5 +1,3 @@
-require_dependency 'mongoid'
-
 module DoorkeeperSsoClient
   module Mixins
     module PassportBase

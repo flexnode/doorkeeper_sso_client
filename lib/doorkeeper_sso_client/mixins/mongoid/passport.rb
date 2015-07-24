@@ -1,4 +1,4 @@
-require_dependency 'mongoid'
+require 'mongoid'
 
 module DoorkeeperSsoClient
   module Mixins
