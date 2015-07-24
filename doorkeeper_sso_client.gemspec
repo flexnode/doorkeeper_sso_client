@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'mixlib-config', "~> 2.2"
   s.add_dependency "activesupport", "> 3"
   s.add_dependency 'api-auth', '~> 1.3.1'
+  s.add_dependency 'rest-client', '~> 2.0.0.rc1'
   s.add_runtime_dependency "rails", "> 3"
   s.add_runtime_dependency 'omniauth-oauth2'
   s.add_runtime_dependency 'warden', '~> 1'
@@ -31,6 +32,7 @@ Gem::Specification.new do |s|
   # Development
   s.add_development_dependency 'database_cleaner', '>= 1.4'
   s.add_development_dependency "pg", '~> 0.18'
+  s.add_development_dependency "mongoid", '~> 3'
   s.add_development_dependency 'rspec-rails', '>= 3.0'
   s.add_development_dependency 'shoulda-matchers', '>= 2.8'
   s.add_development_dependency 'simplecov', '>= 0.9.0'

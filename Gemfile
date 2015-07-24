@@ -19,6 +19,7 @@ gem 'devise'
 
 group :test do
   gem 'rspec-rails'
+  gem 'mongoid'
   gem 'ffaker'
   gem 'nyan-cat-formatter', github: 'mattsears/nyan-cat-formatter'
   gem 'fabrication'
@@ -28,5 +29,5 @@ group :test do
   gem "shoulda-matchers", require: false
   gem 'simplecov', require: false
   gem 'timecop'
-  gem 'combustion', '~> 0.5.3'
+  gem 'combustion'
 end
