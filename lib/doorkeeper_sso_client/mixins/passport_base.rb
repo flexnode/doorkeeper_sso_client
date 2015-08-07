@@ -10,7 +10,8 @@ module DoorkeeperSsoClient
 
       module ClassMethods
         def create_from_omniauth(auth_hash)
-          passport = where(uid: auth_hash["extra"]["passport_id"]).first_or_initialize
+          uid = { uid: auth_hash["extra"]["passport_id"] }
+          passport = where(uid).first || new(uid)
           passport.update_attributes!(
             secret: auth_hash["extra"]["passport_secret"],
             token: auth_hash["credentials"]["token"],
