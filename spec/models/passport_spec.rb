@@ -52,7 +52,23 @@ RSpec.describe DoorkeeperSsoClient::Passport, :type => :model do
       it { expect(fetched_passport.uid).to eq passport_uid }
       it { expect(fetched_passport.token).to eq token }
     end
-
   end
 
+
+  describe "#update_from_pingback" do
+    subject(:passport) { Fabricate("DoorkeeperSsoClient::Passport") }
+    let(:the_time) { Time.now }
+    let(:pingback_data) {
+      HashWithIndifferentAccess.new(
+        revoked_at: the_time,
+        revoke_reason: 'logout',
+        activity_at: the_time
+      )
+    }
+
+    before() { passport.update_from_pingback(pingback_data) }
+    it { expect(passport.revoked_at).to eq the_time }
+    it { expect(passport.revoke_reason).to eq 'logout' }
+    it { expect(passport.last_login_at).to eq the_time }
+  end
 end

@@ -53,6 +53,10 @@ RSpec.describe "DoorkeeperSsoClient::Mixins::Devise::ControllerHelpers DeviseHoo
     it { expect(controller.after_sign_out_path_for(:user)).to eq "http://sso_server.com/logout?app_id=123" }
   end
 
+  describe "#after_omniauth_failure_path_for" do
+    # Will redirect to sso server to completely logout user
+    it { expect(controller.after_omniauth_failure_path_for(:ANYSCOPE)).to eq "http://sso_server.com/logout?app_id=123" }
+  end
 
   describe "#after_sign_in_path_for" do
     # Will redirect to request.env['omniauth.origin']
