@@ -59,6 +59,8 @@ Mount engine for Pingback functionality
 
 ```ruby
 MyApp::Application.routes.draw do
+  devise_for :users, only: [:omniauth_callbacks, :omniauth_authorize]
+
   mount DoorkeeperSsoClient::Engine => "/doorkeeper_sso_client"
 ```
 
