@@ -59,11 +59,10 @@ Mount engine for Pingback functionality
 
 ```ruby
 MyApp::Application.routes.draw do
-  devise_for :users, only: [:omniauth_callbacks, :omniauth_authorize]
-
   mount DoorkeeperSsoClient::Engine => "/doorkeeper_sso_client"
 ```
 
+### Devise
 
 If you use [Devise](https://github.com/plataformatec/devise), you can automatically log out users when their passport is invalid. Run activate sso on your main scope (eg :user) inside application_controller.rb It will automatically run validate_passport! whenever authenticate_user! is run
 
@@ -74,6 +73,75 @@ If you use [Devise](https://github.com/plataformatec/devise), you can automatica
 ```
 
 Note : You can override authenticate_user! if you want customized behavior
+
+#### Devise Omniauthable
+
+Using [Devise](https://github.com/plataformatec/devise), you can also leverage on the ```:omniauthable``` module. First, configure [Doorkeeper SSO](https://github.com/flexnode/doorkeeper_sso) as an Omniauth provider inside config/initializers (omniauth.rb)
+
+```ruby
+Rails.application.config.middleware.use OmniAuth::Builder do
+ provider :doorkeeper_sso, 'comsumer-key', 'consumer-secret',
+           name: "my_sso_provider",
+           client_options: { :site => 'https://sso-provider-url' }
+end
+```
+
+Enable ```:omniauthable``` on the model, and create method to handle the callbacks.
+
+```ruby
+class Admin < ActiveRecord::Base
+  devise :omniauthable, :omniauth_providers => [:my_sso_provider]
+  ...
+  
+  def from_omniauth(auth)
+    admin = find_or_initialize_by(provider: auth["provider"], uid: auth["uid"].to_s) do |new_admin|
+      new_admin.provider = auth["provider"]
+      new_admin.uid = auth["uid"]
+      new_admin.first_name = auth["info"]["first_name"]
+      new_admin.last_name = auth["info"]["last_name"]
+      new_admin.email = auth["info"]["email"]
+      new_admin.token = auth["credentials"]["token"]
+    end
+    admin.passports << DoorkeeperSsoClient::Passport.find_by_uid(auth["extra"]["passport_id"])
+    
+    admin.save ? admin : nil
+  end
+end
+```
+
+Create callback controller app/controllers (omniauth_callbacks_controller.rb)
+
+```ruby
+class OmniauthCallbacksController < Devise::OmniauthCallbacksController
+
+  def my_sso_provider
+    admin = Admin.from_omniauth(request.env["omniauth.auth"])
+    if admin
+      sign_in_and_redirect admin, notice: "Signed in!", :event => :authentication
+    else
+      redirect_to new_admin_session_path, notice: "Sorry but you are not allowed to enter. Please contact administrator."
+    end
+  end
+
+end
+```
+
+Create ```devise_for``` routes in config/routes.rb
+
+```ruby
+Rails.application.routes.draw do
+  devise_for :admins,
+              controllers: {omniauth_callbacks: "omniauth_callbacks"},
+              only: [:omniauth_callbacks, :omniauth_authorize]
+```
+
+Override ```oauth_login_path``` option in config/initializers (doorkeeper_sso_client.rb)
+
+```ruby
+...
+default :oauth_login_path, '/admins/auth/my_sso_provider'
+```
+
 
 ## Testing
 
