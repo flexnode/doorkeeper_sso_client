@@ -13,9 +13,10 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 
-gem 'omniauth-oauth2'
+gem 'omniauth-oauth2', '~> 1.3.1'
 gem 'warden'
 gem 'devise'
+gem "active_model_serializers", github: "rails-api/active_model_serializers"
 
 group :test do
   gem 'rspec-rails'

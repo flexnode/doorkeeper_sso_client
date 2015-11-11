@@ -1,3 +1,4 @@
+require "active_model_serializers"
 require 'active_support/concern'
 require 'doorkeeper_sso_client/mixins'
 require "doorkeeper_sso_client/engine"
