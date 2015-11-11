@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150603155315) do
+ActiveRecord::Schema.define(version: 20151105081646) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,16 +35,18 @@ ActiveRecord::Schema.define(version: 20150603155315) do
     t.datetime "revoked_at"
     t.string   "revoke_reason"
     t.datetime "last_login_at"
+    t.string   "mobile_token"
+    t.string   "client_uid"
   end
 
   add_index "sso_client_passports", ["identity_type", "identity_id"], name: "index_sso_client_passports_on_identity_type_and_identity_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                     null: false
+    t.string   "email",                                 null: false
     t.string   "name"
     t.string   "first_name"
     t.string   "last_name"
-    t.string   "lang",       default: "EN"
+    t.string   "lang",                   default: "EN"
     t.string   "encrypted_password",     default: "",   null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
