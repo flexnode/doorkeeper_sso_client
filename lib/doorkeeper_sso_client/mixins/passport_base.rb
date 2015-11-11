@@ -6,6 +6,8 @@ module DoorkeeperSsoClient
       included do
         belongs_to :identity, polymorphic: true
         validates :uid, presence: true, uniqueness: true
+
+        before_save :ensure_mobile_token
       end
 
       module ClassMethods
@@ -19,7 +21,8 @@ module DoorkeeperSsoClient
             token_expiry:  auth_hash["credentials"]["expiry"],
             revoked_at: nil,
             revoke_reason: nil,
-            last_login_at: Time.current
+            last_login_at: Time.current,
+            client_uid: auth_hash["extra"]["client_id"]
           )
         end
       end # ClassMethods
@@ -55,6 +58,12 @@ module DoorkeeperSsoClient
       def active?
         revoked_at.blank?
       end
+
+     private
+      def ensure_mobile_token
+        self.mobile_token ||= SecureRandom.hex
+      end
+
     end # Passport
   end # Mixins
 end # DoorkeeperSsoClient

@@ -28,7 +28,8 @@ module OmniAuth
       extra do
         {
           :passport_id     => passport_info["id"],
-          :passport_secret => passport_info["secret"]
+          :passport_secret => passport_info["secret"],
+          :client_id => passport_info["client_id"]
         }
       end
 
