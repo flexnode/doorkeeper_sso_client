@@ -27,6 +27,8 @@ module DoorkeeperSsoClient
           field :revoked_at, type: DateTime
           field :revoke_reason, type: String
           field :last_login_at, type: DateTime
+          field :mobile_token, type: String
+          field :client_uid, type: String
         end
 
         module ClassMethods
