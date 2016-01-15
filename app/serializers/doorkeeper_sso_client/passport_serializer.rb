@@ -1,6 +1,6 @@
 module DoorkeeperSsoClient
   class PassportSerializer < ActiveModel::Serializer
-    attributes :mobile_token, :session_id, :email, :first_name, :last_name
+    attributes :mobile_token, :session_id, :email, :first_name, :last_name, :uid
 
     def session_id
       object.uid
@@ -16,6 +16,10 @@ module DoorkeeperSsoClient
 
     def last_name
       object.identity.last_name
+    end
+
+    def uid
+      object.identity.uid
     end
 
   end
