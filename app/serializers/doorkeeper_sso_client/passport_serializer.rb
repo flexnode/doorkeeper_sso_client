@@ -19,7 +19,7 @@ module DoorkeeperSsoClient
     end
 
     def uid
-      object.identity.uid
+      object.identity.uid.gsub("auth0|", "").to_i
     end
 
   end
